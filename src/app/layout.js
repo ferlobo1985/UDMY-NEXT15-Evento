@@ -1,18 +1,25 @@
 import {NextUIProvider} from "@nextui-org/react";
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
+import { Roboto, Anton } from 'next/font/google';
 import "./globals.css";
 import NavComponent from "@/components/nav/header";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const roboto = Roboto({
+  weight:['400','700'],
+  style:['normal','italic'],
+  subsets:['latin'],
+  display:'swap',
+  variable:'--font-roboto'
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
+const anton = Anton({
+  weight:['400'],
+  subsets:['latin'],
+  display:'swap',
+  variable:'--font-anton'
+})
+
+
 
 export const metadata = {
   title: "Create Next App",
@@ -23,7 +30,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${roboto.variable} ${anton.variable} antialiased`}
       >
         <NextUIProvider>
           <NavComponent/>
