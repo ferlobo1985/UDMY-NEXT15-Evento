@@ -15,6 +15,7 @@ const handler = NextAuth({
                 password:{
                     label:"Password",
                     type:"password",
+                    placeholder:"Enter your password"
                 }
             },
             async authorize(credentials){
@@ -32,7 +33,13 @@ const handler = NextAuth({
                 }
             }
         })
-    ]
+    ],
+    theme: {
+        colorScheme: "light", // "auto" | "dark" | "light"
+        brandColor: "", // Hex color code
+        logo: "", // Absolute URL to image
+        buttonText: "" // Hex color code
+    }
 });
 
 export { handler as  GET, handler as POST }
