@@ -1,8 +1,17 @@
 'use client'
 import { Navbar, NavbarBrand, NavbarContent, Dropdown,DropdownItem,DropdownTrigger,DropdownMenu,Button } from "@nextui-org/react"
 import Link from 'next/link';
+import { signOut, useSession } from "next-auth/react";
 
 export default function NavComponent(){
+    const { data:session } = useSession();
+    
+    const logoutUser = () => {
+        signOut({
+            callbackUrl:'/'
+        })
+    }
+
     return(
         <Navbar
             shouldHideOnScroll
@@ -34,20 +43,19 @@ export default function NavComponent(){
                             <Link href="/posts">Posts</Link>
                         </DropdownItem>
                         
-                        <DropdownItem key="register">
-                            <Link href="/register">Register</Link>
-                        </DropdownItem>
-                        <DropdownItem key="log_out">
-                            Log out
-                        </DropdownItem>
+                        {!session ?
+                            <DropdownItem key="register">
+                                <Link href="/register">Register</Link>
+                            </DropdownItem>
+                        :
+                            <DropdownItem key="log_out" onClick={logoutUser}>
+                                Log out
+                            </DropdownItem>
+                        }
                     </DropdownMenu>
 
                 </Dropdown>
             </NavbarContent>
-
-
-
-
         </Navbar>
     )
 }
