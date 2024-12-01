@@ -50,5 +50,8 @@ export const options = {
         brandColor: "", // Hex color code
         logo: "", // Absolute URL to image
         buttonText: "" // Hex color code
+    },
+    pages:{
+        signIn:'/register'
     }
 }
