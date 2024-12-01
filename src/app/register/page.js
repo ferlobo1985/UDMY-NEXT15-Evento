@@ -19,9 +19,28 @@ export default function RegisterPage(){
         }),
         onSubmit: async(values)=>{
             //// SUBMIT TO NEXT AUTH
-            console.log(values)
+            submitForm(values)
         }
     })
+
+
+    const submitForm = async(values) => {
+        if(formType){
+            // REGISTER
+            const res = await fetch('/api/register',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(values)
+            });
+            const user = await res.json();
+            if(!res.ok) { alert(user.error)}
+            console.log(user)
+        } else {
+            // SIGN IN
+        }
+    }
 
 
     return(
