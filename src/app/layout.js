@@ -3,6 +3,7 @@ import {NextUIProvider} from "@nextui-org/react";
 import { Roboto, Anton } from 'next/font/google';
 import "./globals.css";
 import NavComponent from "@/components/nav/header";
+import AuthProvider from "@/providers/authProvider";
 
 const roboto = Roboto({
   weight:['400','700'],
@@ -32,12 +33,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${roboto.variable} ${anton.variable} antialiased`}
       >
+      <AuthProvider>
         <NextUIProvider>
           <NavComponent/>
           <>
             {children}
           </>
         </NextUIProvider>
+      </AuthProvider>
       </body>
     </html>
   );
