@@ -3,11 +3,14 @@ import { useState, useTransition } from "react"
 import { Input, Button, Divider, Select, SelectItem, Textarea } from "@nextui-org/react"
 import { errorHelper } from "@/components/utils";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { useFormik } from "formik";
 import * as Yup from 'yup'
 
 export default function AddEventComponent({venuesList, postEvent}){
-
+    const [startDate,setStartDate] = useState(null);
 
     const formik = useFormik({
         initialValues:{
@@ -73,7 +76,18 @@ export default function AddEventComponent({venuesList, postEvent}){
             />
 
 
-            {/*  DATEPICKER */}
+            <DatePicker
+                selected={startDate}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy h:mm aa"
+                onChange={(date)=>{
+                    formik.setFieldValue('date',date,true);
+                    setStartDate(date)
+                }}
+                customInput={
+                    <CustomPickerButton formik={formik}/>
+                }
+            />
 
 
             <Divider className="mb-5"/>
@@ -96,3 +110,26 @@ export default function AddEventComponent({venuesList, postEvent}){
         </form>
     )
 }
+
+
+const CustomPickerButton = (({value, onClick, formik, ref}) => (
+    <>
+        <Button
+            color={formik.errors.date && formik.touched.date ? 'danger':'primary'}
+            variant="bordered"
+            className="mb-5"
+            onClick={onClick}
+            ref={ref}
+        >
+            { value ? value:'Enter a date'}
+        </Button>
+        { formik.errors.date && formik.touched.date ?
+            <span className="text-xs text-red-600 ml-5">
+                {formik.errors.date }
+            </span>
+        :null}
+    </>
+))
+
+/// CustomPickerButton.displayName = "CustomPickerButton";
+
