@@ -8,8 +8,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useFormik } from "formik";
 import * as Yup from 'yup'
+import { redirect } from "next/navigation"
 
 export default function AddEventComponent({venuesList, postEvent}){
+    const [isPending,startTransition] = useTransition();
+    const [error,setError] = useState(null);
     const [startDate,setStartDate] = useState(null);
 
     const formik = useFormik({
@@ -28,10 +31,21 @@ export default function AddEventComponent({venuesList, postEvent}){
             slug:Yup.string().required('Sorry, slug is required')
         }),
         onSubmit: async(values)=>{
-            /// SUBMIT/ POST
+            handleSubmit(values)
         }
     })
 
+    const handleSubmit = async(values) => {
+        startTransition(async()=>{
+            const { success, message} = await postEvent(values);
+            if(!success){
+                setError(message)
+            } else {
+                redirect('/dashboard')
+            }
+        })
+
+    }    
 
     return(
         <form className="max-w-2xl mx-auto" onSubmit={formik.handleSubmit}>
@@ -102,11 +116,18 @@ export default function AddEventComponent({venuesList, postEvent}){
                 {...errorHelper(formik,'slug')}
             />
 
-            <Button color="secondary" variant="solid" type="submit">
-                Add Event
-            </Button>
+            { !isPending ?
+                <Button color="secondary" variant="solid" type="submit">
+                    Add Event
+                </Button>
+            :null}
 
-
+            { error ?
+                <div className="my-5 text-red-600">
+                    {error}
+                </div>
+            :null}
+        
         </form>
     )
 }
