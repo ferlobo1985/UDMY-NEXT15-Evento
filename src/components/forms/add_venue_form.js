@@ -45,10 +45,22 @@ export default function AddVenueComponent(){
         <Button color="secondary" variant="solid" type="submit">
             Add Venue
         </Button>
-
-
-
-
+        { isPending && <div>...loading</div> }  
+        <div className="my-5">
+            { !state?.success ?
+                <div className="text-danger">
+                    <ul>
+                        { state?.message.map((error,index)=>(
+                            <li key={index}>- {error}</li>
+                        ))}
+                    </ul>
+                </div>
+            :
+                <div className="text-success">
+                    {state?.message}
+                </div>
+            }
+        </div>
       </form>
     )
 }
