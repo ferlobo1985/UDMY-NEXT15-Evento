@@ -1,7 +1,24 @@
-export default async function AddEventPage(params) {
+import AddEventComponent from "@/components/forms/add_event_form"
+
+import DBconnect from "@/lib/db"
+import Venue from "@/lib/models/venue"
+import Event from "@/lib/models/events"
+
+
+export default async function AddEventPage() {
+    await DBconnect();
+    const venues = await Venue.find({});
+    
+    async function addEvent(formData) {
+        'use server'
+
+    }
+
+
     return(
-        <>
-            <h1>ADD EVENT PAGE</h1>
-        </>
+       <AddEventComponent
+            venuesList={JSON.parse(JSON.stringify(venues))}
+            postEvent={addEvent}
+       />
     )
 }
