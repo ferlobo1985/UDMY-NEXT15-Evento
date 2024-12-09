@@ -1,5 +1,6 @@
 import { findEventById } from "@/lib/actions/actions";
 import Image from 'next/image'
+import VenueCardComponent from "@/components/events/venue_card";
 
 export default async function EventsPage({params}){
     const eventID = (await params).slug;
@@ -16,10 +17,14 @@ export default async function EventsPage({params}){
                 <div className="py-10">
                     <h1 className="text-7xl">{event.artist}</h1>
                     <h3 className="text-3xl">{event.venue.name}</h3>
+                    <h3>at {event.date.toLocaleString()}</h3>
                 </div>
                 <p>{event.description}</p>
             </div>
-            
+            <VenueCardComponent
+                venueData={JSON.parse(JSON.stringify(event.venue))}
+                eventDate={event.date}
+            />
 
         </div>
     )
