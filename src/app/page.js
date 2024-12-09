@@ -5,6 +5,13 @@ import EventsMasonryComponent from "@/components/events_masonry";
 export default async function Home() {
   const eventShows = await findEvents(0,3);
 
+  async function loadMore(skip,limit){
+    'use server'
+    const nextEvents = await findEvents(skip,limit);
+    return JSON.parse(JSON.stringify(nextEvents))
+  }
+
+
   return (
     <>
       <div className="relative w-auto h-[200px]">
@@ -15,6 +22,7 @@ export default async function Home() {
       </div>
       <EventsMasonryComponent
         eventShows={JSON.parse(JSON.stringify(eventShows))}
+        loadMore={loadMore}
       />  
     
     </>

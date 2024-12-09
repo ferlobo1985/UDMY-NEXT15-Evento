@@ -20,13 +20,30 @@ import {
 };
 
 
-export default function EventsMasonryComponent({eventShows}){
+export default function EventsMasonryComponent({eventShows, loadMore}){
     const [ events, setEvents] = useState(eventShows);
+    const [ loadButton, setLoadButton] = useState(true)
 
     const randHeight = (number) =>{
         if(number % 2 === 0) { return 200 }
         return 300
     }
+
+    const moreHandler = async() => {
+            setLoadButton(false);
+            const newEvents = await loadMore(events.length,3);
+
+            if(newEvents.length === 0){
+                setLoadButton(false)
+            } else {
+                setLoadButton(true);
+                setEvents(prevState => {
+                    return [...prevState,...newEvents]
+                })
+            }
+    }
+
+
 
     return(
         <div className="max-w-5xl mx-auto mt-4 p-5">
@@ -68,7 +85,11 @@ export default function EventsMasonryComponent({eventShows}){
             </Masonry>
             <Divider className="mb-5"/>
 
-            {/* BUTTON */}
+            { loadButton ?
+            <Button color="primary" variant="ghost" size="lg" onClick={moreHandler}>
+                Load More
+            </Button>
+            :null}
 
         </div>
     )
