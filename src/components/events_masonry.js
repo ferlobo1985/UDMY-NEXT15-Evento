@@ -23,6 +23,11 @@ import {
 export default function EventsMasonryComponent({eventShows}){
     const [ events, setEvents] = useState(eventShows);
 
+    const randHeight = (number) =>{
+        if(number % 2 === 0) { return 200 }
+        return 300
+    }
+
     return(
         <div className="max-w-5xl mx-auto mt-4 p-5">
             <h1 className="text-6xl antonfont py-3">Events</h1>
@@ -37,16 +42,34 @@ export default function EventsMasonryComponent({eventShows}){
                         isFooterBlurred
                         className="w-full min-h-200 col-span-12 sm:col-span-7"
                     >
-                        <CardHeader>
-
+                        <CardHeader className="absolute z-10 top-0 flex-col items-start bg-black/40">
+                            <p className="text-tiny text-white/60 uppercase font-bold">
+                                {event.venue.name}
+                            </p>
+                            <h4 className="text-white/90 font-medium text-xl">
+                                {event.artist}
+                            </h4>
                         </CardHeader>
-                        <UIimage/>
-                        <CardFooter>
-                            
+                        <UIimage
+                            isZoomed={true}
+                            isBlurred={true}
+                            removeWrapper
+                            alt="Card Background"
+                            className="z-0 w-full h-full object-cover"
+                            src={`https://picsum.photos/200/${randHeight(index)}?${index}`}
+                        />
+                        <CardFooter className="absolute bg-black/40 bottom-0 z-10">
+                            <Button radius="full" size="sm" as={Link} href={`/events/${event.slug}`}>
+                                Go to event
+                            </Button>
                         </CardFooter>
                     </Card>
                 ))}
             </Masonry>
+            <Divider className="mb-5"/>
+
+            {/* BUTTON */}
+
         </div>
     )
 
